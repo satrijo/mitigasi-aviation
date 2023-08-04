@@ -34,63 +34,36 @@ const sendBerita = async (berita, icao_sender) => {
     return { error: "Berita tidak boleh kosong" };
   }
 
-  // check if 4 letter word is SAID
   if (
     berita.substring(0, 4).toUpperCase() === "SAID" ||
     berita.substring(0, 4).toUpperCase() === "SPID"
   ) {
-    try {
-      // insert to collection berita with mongoose
-      await connect(); // Menunggu koneksi berhasil
-      let icao = berita.substring(7, 11);
-      const newBerita = new Berita({
-        type: "METAR-SPECI",
-        icao: icao,
-        icao_sender: icao_sender,
-        berita: berita,
-      });
-      await newBerita.save(); // Menyimpan data berita ke koleksi "berita"
-      return { success: "Berita berhasil dikirim" };
-    } catch (err) {
-      console.error("Error saving berita:", err);
-      return { error: "Terjadi kesalahan saat menyimpan berita" };
-    }
+    console.log("SAID");
+    sendToDb(berita, icao_sender, "METAR-SPECI");
   } else if (berita.substring(0, 4).toUpperCase() === "WSID") {
-    try {
-      // insert to collection berita with mongoose
-      await connect(); // Menunggu koneksi berhasil
-      let icao = berita.substring(7, 11);
-      const newBerita = new Berita({
-        type: "SIGMET",
-        icao: icao,
-        icao_sender: icao_sender,
-        berita: berita,
-      });
-      await newBerita.save(); // Menyimpan data berita ke koleksi "berita"
-      return { success: "Berita berhasil dikirim" };
-    } catch (err) {
-      console.error("Error saving berita:", err);
-      return { error: "Terjadi kesalahan saat menyimpan berita" };
-    }
+    sendToDb(berita, icao_sender, "SIGMET");
   } else if (berita.substring(0, 4).toUpperCase() === "FTID") {
-    try {
-      // insert to collection berita with mongoose
-      await connect(); // Menunggu koneksi berhasil
-      let icao = berita.substring(7, 11);
-      const newBerita = new Berita({
-        type: "TAF",
-        icao: icao,
-        icao_sender: icao_sender,
-        berita: berita,
-      });
-      await newBerita.save(); // Menyimpan data berita ke koleksi "berita"
-      return { success: "Berita berhasil dikirim" };
-    } catch (err) {
-      console.error("Error saving berita:", err);
-      return { error: "Terjadi kesalahan saat menyimpan berita" };
-    }
+    sendToDb(berita, icao_sender, "TAF");
   } else {
     return { error: "Berita tidak valid" };
+  }
+};
+
+const sendToDb = async (berita, icao_sender, type) => {
+  try {
+    await connect();
+    let icao = berita.substring(7, 11);
+    const newBerita = new Berita({
+      type: type,
+      icao: icao,
+      icao_sender: icao_sender,
+      berita: berita,
+    });
+    await newBerita.save();
+    return { success: "Berita berhasil dikirim" };
+  } catch (err) {
+    console.error("Error saving berita:", err);
+    return { error: "Terjadi kesalahan saat menyimpan berita" };
   }
 };
 

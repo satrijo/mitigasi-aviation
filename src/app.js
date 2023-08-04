@@ -43,15 +43,18 @@ app.get("/", isAuth, (req, res) => {
 app.post("/", isAuth, (req, res) => {
   const { berita, username } = req.body;
   const send = sendBerita(berita, username);
-  if (send.error) {
-    return res.render("index", {
-      error: "Berita gagal dikirim!",
-      username: username,
+  send.then((data) => {
+    if (data && data.error) {
+      return res.render("index", {
+        username: req.session.username,
+        errors: data.error,
+      });
+    }
+
+    res.render("index", {
+      username: req.session.username,
+      success: "Berita berhasil dikirim",
     });
-  }
-  res.render("index", {
-    success: "Berita berhasil dikirim",
-    username: username,
   });
 });
 
@@ -77,7 +80,6 @@ app.post("/login", (req, res) => {
         res.redirect("/");
       }
     });
-    // Hapus res.redirect("/") ini dari luar blok .then()
   } catch (err) {
     console.log(err);
   }
