@@ -6,9 +6,7 @@ const isAuth = (req, res, next) => {
     next();
     return;
   } else {
-    req.session.destroy(function (err) {
-      res.redirect("/login");
-    });
+    res.redirect("/login");
   }
 };
 
