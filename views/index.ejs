@@ -1,0 +1,79 @@
+<h1>Mitigasi Berita Aviation</h1>
+<p class="lead">
+  Ini adalah halaman mitigasi yang dirancang untuk memberikan akses ke berita
+  cuaca dan memfasilitasi pertukaran data antar UPT (Unit Pelaksana Teknis)
+  selama website utama tidak dapat diakses.
+</p>
+<p class="lead">
+  <button
+    type="button"
+    class="bg-white border-white btn btn-lg btn-secondary fw-bold"
+    data-bs-toggle="modal"
+    data-bs-target="#modalKirimBerita"
+    href="#"
+  >
+    Kirim Berita
+  </button>
+
+<% if (typeof success !== "undefined") { %>
+  <div id="success" class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong><%= success %></strong>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+<% } %>
+
+<% if (typeof error !== "undefined") { %>
+  <div id="error" class="alert alert-danger alert-dismissible fade show" role="alert">
+    <strong><%= error %></strong>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+<% } %>
+
+<script type="text/javascript">
+        setTimeout(function () {
+
+            // Closing the alert
+            document.getElementById("success").remove();
+        }, 3000);
+    </script>
+
+
+</p>
+
+<div
+  class="modal fade p-3"
+  id="modalKirimBerita"
+  tabindex="-1"
+  aria-labelledby="modalKirimBeritaLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="container">
+          <form class="text-start d-flex flex-column" action="/" method="POST">
+            <div class="mb-3">
+              <div class="d-flex justify-content-between">
+                <label class="mb-2 text-start text-dark">Berita CMSS</label>
+                <label class="mb-2 text-end text-dark"><%= username %></label>
+              </div>
+              <input
+                type="hidden"
+                name="username"
+                id="username"
+                value="<%= username %>"
+              />
+              <textarea
+                class="form-control"
+                rows="10"
+                name="berita"
+                required
+              ></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Kirim Berita</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
