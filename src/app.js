@@ -88,6 +88,6 @@ app.use("/", (req, res) => {
   res.status(404).render("404", { title: "404" });
 });
 
-app.listen(port, () => {
+app.listen(port, "0.0.0.0", () => {
   console.log(`Server running on port ${port}`);
 });
