@@ -8,7 +8,7 @@ const cookieParser = require("cookie-parser");
 const { sendBerita } = require("../utils/berita");
 
 const app = express();
-const port = 5000;
+const port = 80;
 
 app.use(expressLayouts);
 app.use(express.static("public"));
