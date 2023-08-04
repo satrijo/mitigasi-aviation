@@ -62,6 +62,10 @@ app.get("/find", isAuth, (req, res) => {
   res.render("find");
 });
 
+app.get("/contact", (req, res) => {
+  res.render("contact");
+});
+
 app.get("/login", isLogged, (req, res) => {
   res.render("login", { errors: {} });
 });
