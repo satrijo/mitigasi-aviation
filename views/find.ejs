@@ -32,6 +32,7 @@
 
   getBerita.addEventListener("click", async (e) => {
     e.preventDefault();
+    listResult.innerHTML = `<span class="text-center">Loading....</span>`;
     const url = "/find";
     const response = await axios.post(
       url,
@@ -48,8 +49,11 @@
 
     if (data.length > 0) {
       let list = "";
+      // add spinner
       // data more than 10 we must slice it
       data.forEach((item) => {
+        // clear list
+        listResult.innerHTML = "";
         list += `<div class="card mb-1">
         <div class="card-body">
           <h5 class="card-title fs-6 font-monospace">${item.type}</h5>

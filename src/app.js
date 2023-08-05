@@ -67,7 +67,8 @@ app.get("/find", isAuth, (req, res) => {
 
 app.post("/find", (req, res) => {
   const { stasiun } = req.body;
-  const berita = getBerita(stasiun);
+  const capital = stasiun.toUpperCase();
+  const berita = getBerita(capital);
   berita.then((data) => {
     if (data && data.error) {
       return res.render("find", { errors: data.error });
