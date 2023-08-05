@@ -106,7 +106,7 @@ app.post("/login", (req, res) => {
 
 // middleware not found
 app.use("/", (req, res) => {
-  res.status(404).render("404", { title: "404" });
+  res.status(404).render("404", { title: "404: Halaman Tidak Ditemukan!" });
 });
 
 app.listen(port, "0.0.0.0", () => {
