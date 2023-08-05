@@ -38,12 +38,22 @@ const sendBerita = async (berita, icao_sender) => {
     berita.substring(0, 4).toUpperCase() === "SAID" ||
     berita.substring(0, 4).toUpperCase() === "SPID"
   ) {
-    console.log("SAID");
     sendToDb(berita, icao_sender, "METAR-SPECI");
   } else if (berita.substring(0, 4).toUpperCase() === "WSID") {
     sendToDb(berita, icao_sender, "SIGMET");
   } else if (berita.substring(0, 4).toUpperCase() === "FTID") {
     sendToDb(berita, icao_sender, "TAF");
+  } else if (
+    berita.substring(0, 4).toUpperCase() === "UPID" ||
+    berita.substring(0, 4).toUpperCase() === "UGID"
+  ) {
+    sendToDb(berita, icao_sender, "UPPER-AIR");
+  } else if (
+    berita.substring(0, 4).toUpperCase() === "SIID" ||
+    berita.substring(0, 4).toUpperCase() === "SMID" ||
+    berita.substring(0, 4).toUpperCase() === "SNID"
+  ) {
+    sendToDb(berita, icao_sender, "SYNOP");
   } else {
     return { error: "Berita tidak valid" };
   }
