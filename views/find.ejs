@@ -1,15 +1,71 @@
 <div class="card">
   <div class="card-body text-dark text-start">
     <div class="mb-3">
-      <label for="exampleFormControlInput1" class="form-label"
-        >Email address</label
-      >
-      <input
-        type="email"
-        class="form-control"
-        id="exampleFormControlInput1"
-        placeholder="name@example.com"
-      />
+      <label for="stasiun" class="form-label">Stasiun</label>
+      <div class="d-flex">
+        <input
+          type="text"
+          class="form-control"
+          id="stasiun"
+          placeholder="Kode Stasiun Contoh WAHL"
+          name="stasiun"
+        />
+        <div style="margin-left: 12px">
+          <!-- Menambahkan class ml-2 untuk memberikan margin kiri pada tombol -->
+          <button type="submit" class="btn btn-primary" id="getBerita">
+            Cari
+          </button>
+        </div>
+      </div>
     </div>
+    <div id="list-result" class="scrollable-div"></div>
   </div>
 </div>
+
+<script type="module">
+  import axios from "https://cdn.skypack.dev/axios@latest";
+  import moment from "https://cdn.skypack.dev/moment@latest";
+
+  const stasiun = document.getElementById("stasiun");
+  const listResult = document.getElementById("list-result");
+  const getBerita = document.getElementById("getBerita");
+
+  getBerita.addEventListener("click", async (e) => {
+    e.preventDefault();
+    const url = "/find";
+    const response = await axios.post(
+      url,
+      {
+        stasiun: stasiun.value,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const data = response.data;
+
+    if (data.length > 0) {
+      let list = "";
+      // data more than 10 we must slice it
+      data.forEach((item) => {
+        list += `<div class="card mb-1">
+        <div class="card-body">
+          <h5 class="card-title fs-6 font-monospace">${item.type}</h5>
+          <h6 class="card-subtitle mb-2 text-muted fs-6 font-monospace">${moment(
+            item.timestamp
+          ).format("DD-MM-YYYY HH:mm:ss")}</h6>
+          <p class="card-text fs-6 font-monospace">${item.berita}</p>
+        </div>
+      </div>`;
+      });
+      listResult.innerHTML = list;
+      listResult.style.overflowY = "scroll";
+    } else {
+      listResult.innerHTML = `<div class="alert alert-danger" role="alert">
+      Data tidak ditemukan
+    </div>`;
+    }
+  });
+</script>

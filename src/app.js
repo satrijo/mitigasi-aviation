@@ -5,7 +5,7 @@ const { isAuth, authLogin, isLogged } = require("../utils/user");
 const session = require("cookie-session");
 const flash = require("req-flash");
 const cookieParser = require("cookie-parser");
-const { sendBerita } = require("../utils/berita");
+const { sendBerita, getBerita } = require("../utils/berita");
 const dotenv = require("dotenv");
 
 dotenv.config();
@@ -63,6 +63,17 @@ app.post("/", isAuth, (req, res) => {
 
 app.get("/find", isAuth, (req, res) => {
   res.render("find");
+});
+
+app.post("/find", (req, res) => {
+  const { stasiun } = req.body;
+  const berita = getBerita(stasiun);
+  berita.then((data) => {
+    if (data && data.error) {
+      return res.render("find", { errors: data.error });
+    }
+    res.json(data);
+  });
 });
 
 app.get("/contact", (req, res) => {

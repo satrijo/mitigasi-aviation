@@ -67,4 +67,15 @@ const sendToDb = async (berita, icao_sender, type) => {
   }
 };
 
-module.exports = { sendBerita };
+const getBerita = async (icao) => {
+  try {
+    await connect();
+    const berita = await Berita.find({ icao: icao }).sort({ timestamp: -1 });
+    return berita;
+  } catch (err) {
+    console.error("Error getting berita:", err);
+    return { error: "Terjadi kesalahan saat mengambil berita" };
+  }
+};
+
+module.exports = { sendBerita, getBerita };
