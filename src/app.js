@@ -41,7 +41,7 @@ app.use(flash());
 app.set("layout", "./layouts/main");
 app.set("view engine", "ejs");
 
-cron.schedule("* * * * *", () => {
+cron.schedule("*/10 * * * *", () => {
   const getHima = getImage(
     "hima.png",
     "https://inderaja.bmkg.go.id/IMAGE/HIMA/H08_EH_Indonesia.png?time=1234"
@@ -132,6 +132,10 @@ app.post("/find", (req, res) => {
     }
     res.json(data);
   });
+});
+
+app.get("/citra", (req, res) => {
+  res.render("citra");
 });
 
 app.get("/contact", (req, res) => {
