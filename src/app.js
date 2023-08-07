@@ -7,6 +7,8 @@ const flash = require("req-flash");
 const cookieParser = require("cookie-parser");
 const { sendBerita, getBerita } = require("../utils/berita");
 const dotenv = require("dotenv");
+const cron = require("node-cron");
+const { getImage } = require("../utils/image");
 
 dotenv.config();
 
@@ -38,6 +40,61 @@ app.use(flash());
 
 app.set("layout", "./layouts/main");
 app.set("view engine", "ejs");
+
+cron.schedule("* * * * *", () => {
+  const getHima = getImage(
+    "hima.png",
+    "https://inderaja.bmkg.go.id/IMAGE/HIMA/H08_EH_Indonesia.png?time=1234"
+  );
+  const getSigwx00 = getImage(
+    "sigwx_00.gif",
+    "https://aviation.bmkg.go.id/shared/sigwx/sigwx_hl_dir/sigwx_00.gif"
+  );
+  const getSigwx06 = getImage(
+    "sigwx_06.gif",
+    "https://aviation.bmkg.go.id/shared/sigwx/sigwx_hl_dir/sigwx_06.gif"
+  );
+  const getSigwx12 = getImage(
+    "sigwx_12.gif",
+    "https://aviation.bmkg.go.id/shared/sigwx/sigwx_hl_dir/sigwx_12.gif"
+  );
+  const getSigwx18 = getImage(
+    "sigwx_18.gif",
+    "https://aviation.bmkg.go.id/shared/sigwx/sigwx_hl_dir/sigwx_18.gif"
+  );
+
+  const dateNow = new Date();
+  let date = dateNow.getDate();
+  if (date < 10) {
+    date = `0${date}`;
+  }
+  let month = dateNow.getMonth() + 1;
+  if (month < 10) {
+    month = `0${month}`;
+  }
+  const year = dateNow.getFullYear();
+
+  const getMediumSigwx00 = getImage(
+    `medium_${year}${month}${date}00.jpeg`,
+    `https://aviation.bmkg.go.id/shared/sigwx/${year}/${month}/sigwx_${year}${month}${date}0000.jpeg`,
+    "medium"
+  );
+  const getMediumSigwx06 = getImage(
+    `medium_${year}${month}${date}06.jpeg`,
+    `https://aviation.bmkg.go.id/shared/sigwx/${year}/${month}/sigwx_${year}${month}${date}0600.jpeg`,
+    "medium"
+  );
+  const getMediumSigwx12 = getImage(
+    `medium_${year}${month}${date}12.jpeg`,
+    `https://aviation.bmkg.go.id/shared/sigwx/${year}/${month}/sigwx_${year}${month}${date}1200.jpeg`,
+    "medium"
+  );
+  const getMediumSigwx18 = getImage(
+    `medium_${year}${month}${date}18.jpeg`,
+    `https://aviation.bmkg.go.id/shared/sigwx/${year}/${month}/sigwx_${year}${month}${date}1800.jpeg`,
+    "medium"
+  );
+});
 
 app.get("/", isAuth, (req, res) => {
   res.render("index", { username: req.session.username });
