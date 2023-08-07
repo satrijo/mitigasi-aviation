@@ -94,6 +94,30 @@ cron.schedule("*/10 * * * *", () => {
     `https://aviation.bmkg.go.id/shared/sigwx/${year}/${month}/sigwx_${year}${month}${date}1800.jpeg`,
     "medium"
   );
+
+  const hourList = ["00", "06", "12", "18"];
+  const levelList = [
+    "850",
+    "700",
+    "600",
+    "500",
+    "400",
+    "300",
+    "250",
+    "200",
+    "150",
+    "100",
+  ];
+
+  levelList.forEach((level) => {
+    hourList.forEach((hour) => {
+      const getWind = getImage(
+        `wind_${level}_${hour}.png`,
+        `https://aviation.bmkg.go.id/shared/windtemp/${level}_${hour}.png`,
+        "wind"
+      );
+    });
+  });
 });
 
 app.get("/", isAuth, (req, res) => {
