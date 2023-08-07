@@ -39,7 +39,10 @@ const sendBerita = async (berita, icao_sender) => {
     berita.substring(0, 4).toUpperCase() === "SPID"
   ) {
     sendToDb(berita, icao_sender, "METAR-SPECI");
-  } else if (berita.substring(0, 4).toUpperCase() === "WSID") {
+  } else if (
+    berita.substring(0, 4).toUpperCase() === "WSID" ||
+    berita.substring(0, 4).toUpperCase() === "WVID"
+  ) {
     sendToDb(berita, icao_sender, "SIGMET");
   } else if (berita.substring(0, 4).toUpperCase() === "FTID") {
     sendToDb(berita, icao_sender, "TAF");
