@@ -42,7 +42,7 @@ app.use(flash());
 app.set("layout", "./layouts/main");
 app.set("view engine", "ejs");
 
-cron.schedule("*/10 * * * *", () => {
+cron.schedule("10 * * * *", () => {
   const getHima = getImage(
     "hima.png",
     "https://inderaja.bmkg.go.id/IMAGE/HIMA/H08_EH_Indonesia.png?time=1234"
