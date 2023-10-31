@@ -10,6 +10,7 @@ const dotenv = require("dotenv");
 const cron = require("node-cron");
 const { getImage } = require("../utils/image");
 
+// edit for dotenv
 dotenv.config();
 
 const app = express();
